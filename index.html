@@ -28,9 +28,16 @@
     <style>
         .glass-nav { background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(12px); }
         .glow-card:hover { box-shadow: 0 0 25px rgba(0, 242, 254, 0.18); border-color: rgba(0, 242, 254, 0.4); }
+        /* Scrollbar styling for modal */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050b14; }
+        ::-webkit-scrollbar-thumb { background: #0078d4; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-cyberDark text-gray-300 font-sans antialiased selection:bg-cyberBlue selection:text-white">
+<body class="bg-cyberDark text-gray-300 font-sans antialiased selection:bg-cyberBlue selection:text-white relative">
+
+    <!-- CYBER BACKGROUND CONTAINER -->
+    <div id="tsparticles" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-60"></div>
 
     <!-- Navigation Bar -->
     <nav class="fixed top-0 w-full glass-nav border-b border-gray-800/60 z-50 px-6 py-4 flex justify-between items-center transition-all">
@@ -47,100 +54,114 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-36 pb-20 px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden">
+    <section class="pt-36 pb-20 px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative z-10">
         <div class="md:w-2/3 space-y-6" data-aos="fade-right" data-aos-duration="1000">
-            <div class="inline-flex items-center gap-2 bg-emerald-900/30 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full">
+            <div class="inline-flex items-center gap-2 bg-emerald-900/30 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Open to Work
+                Open to Work Opportunities
             </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight drop-shadow-lg">
                 Muhammad Ahmad
             </h1>
-            <p class="text-xl md:text-2xl text-cyberAccent font-medium h-8 flex items-center">
+            <p class="text-xl md:text-2xl text-cyberAccent font-medium h-8 flex items-center drop-shadow-md">
                 <i class="fas fa-terminal text-sm mr-3 opacity-70"></i> <span id="typed-text"></span>
             </p>
-            <p class="text-gray-400 max-w-xl leading-relaxed text-sm md:text-base">
+            <p class="text-gray-400 max-w-xl leading-relaxed text-sm md:text-base bg-cyberDark/50 p-4 rounded-lg backdrop-blur-sm border border-gray-800/50">
                 Computer Science student at The University of Faisalabad. Passionate about leveraging AI and data-driven methodologies to build resilient network defenses and robust security postures.
             </p>
             <div class="flex gap-4 pt-4">
                 <a href="#contact" class="bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white px-7 py-3 rounded-lg font-medium transition-all shadow-lg shadow-blue-900/20 hover:-translate-y-1">
                     Contact Me
                 </a>
-                <a href="#projects" class="border border-gray-700 hover:border-cyberBlue text-gray-300 px-6 py-3 rounded-lg font-medium transition-all hover:-translate-y-1">
+                <a href="#projects" class="border border-gray-700 hover:border-cyberBlue text-gray-300 px-6 py-3 rounded-lg font-medium transition-all hover:-translate-y-1 backdrop-blur-sm bg-cyberDark/30">
                     View Work
                 </a>
             </div>
         </div>
         
-        <!-- Updated Profile Picture Section -->
+        <!-- Profile Picture Section -->
         <div class="md:w-1/3 flex justify-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
             <div class="relative w-64 h-64 rounded-full bg-gradient-to-br from-cyberBlue via-cyan-500 to-cyberAccent p-1 shadow-[0_0_40px_rgba(0,120,212,0.3)] animate-[spin_10s_linear_infinite]">
                 <div class="w-full h-full bg-cyberDark rounded-full flex flex-col items-center justify-center overflow-hidden animate-[spin_10s_linear_infinite_reverse]">
-                    <!-- MAKE SURE TO ADD YOUR PICTURE IN THE FOLDER NAMED "profile.jpg" -->
-                   <img src="profile.jpeg" alt="Muhammad Ahmad" class="w-full h-full object-cover object-top">
+                    <img src="profile.jpeg" alt="Muhammad Ahmad" class="w-full h-full object-cover object-top">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50">
-        <h2 class="text-3xl font-bold text-white mb-10 flex items-center" data-aos="fade-right"><i class="fas fa-briefcase text-cyberBlue mr-3"></i> Work Experience</h2>
+    <!-- Experience Section (Updated with Click Triggers) -->
+    <section id="experience" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50 relative z-10">
+        <div class="flex justify-between items-end mb-10" data-aos="fade-right">
+            <h2 class="text-3xl font-bold text-white flex items-center drop-shadow-md"><i class="fas fa-briefcase text-cyberBlue mr-3"></i> Work Experience</h2>
+            <p class="text-xs text-gray-500 hidden sm:block"><i class="fas fa-mouse-pointer mr-1"></i> Click cards for details</p>
+        </div>
+        
         <div class="grid md:grid-cols-2 gap-6">
             
-            <div data-aos="fade-up" data-aos-delay="0" class="bg-cyberCard glow-card border border-gray-800 p-6 rounded-xl transition-all duration-300">
+            <div onclick="openModal('10pearls')" data-aos="fade-up" data-aos-delay="0" class="bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-6 rounded-xl transition-all duration-300 cursor-pointer hover:border-cyberAccent/70 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,242,254,0.15)] group">
                 <div class="flex justify-between items-start mb-2">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Data Science Intern</h3>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyberAccent transition-colors">Data Science Intern</h3>
                         <p class="text-cyberAccent text-sm font-medium">10Pearls</p>
                     </div>
                     <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded">Jul 2026 - Present</span>
                 </div>
                 <p class="text-gray-400 text-sm mt-2">Selected for the 8-week Shine Internship Program. Focused on leveraging data science, artificial intelligence, analytical modeling, and machine learning for automated network defense.</p>
+                <div class="mt-4 flex items-center text-xs text-gray-500 group-hover:text-cyan-400 transition-colors">
+                    <span>View full details</span> <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                </div>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="100" class="bg-cyberCard glow-card border border-gray-800 p-6 rounded-xl transition-all duration-300">
+            <div onclick="openModal('microsoft')" data-aos="fade-up" data-aos-delay="100" class="bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-6 rounded-xl transition-all duration-300 cursor-pointer hover:border-blue-500/70 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] group">
                 <div class="flex justify-between items-start mb-2">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Associate Microsoft Student Ambassador</h3>
-                        <p class="text-cyberAccent text-sm font-medium">Microsoft</p>
+                        <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Associate Microsoft Student Ambassador</h3>
+                        <p class="text-blue-400 text-sm font-medium">Microsoft</p>
                     </div>
                     <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded">Jul 2026 - Present</span>
                 </div>
                 <p class="text-gray-400 text-sm mt-2">Established and managed the official Microsoft Student Ambassadors chapter at The University of Faisalabad. Organizing workshops to upskill peers in Cybersecurity & AI.</p>
+                <div class="mt-4 flex items-center text-xs text-gray-500 group-hover:text-blue-400 transition-colors">
+                    <span>View full details</span> <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                </div>
             </div>
             
-            <div data-aos="fade-up" data-aos-delay="200" class="bg-cyberCard glow-card border border-gray-800 p-6 rounded-xl transition-all duration-300">
+            <div onclick="openModal('arch')" data-aos="fade-up" data-aos-delay="200" class="bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-6 rounded-xl transition-all duration-300 cursor-pointer hover:border-purple-500/70 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] group">
                 <div class="flex justify-between items-start mb-2">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Cyber Security Intern</h3>
-                        <p class="text-cyberAccent text-sm font-medium">Arch Technologies</p>
+                        <h3 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">Cyber Security Intern</h3>
+                        <p class="text-purple-400 text-sm font-medium">Arch Technologies</p>
                     </div>
                     <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded">Jun 2026 - Present</span>
                 </div>
                 <p class="text-gray-400 text-sm mt-2">Engaged in intensive 8-week training gaining hands-on experience in vulnerability assessment, network defense, log analysis, and threat hunting workflows.</p>
+                <div class="mt-4 flex items-center text-xs text-gray-500 group-hover:text-purple-400 transition-colors">
+                    <span>View full details</span> <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                </div>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="300" class="bg-cyberCard glow-card border border-gray-800 p-6 rounded-xl transition-all duration-300">
+            <div onclick="openModal('systems')" data-aos="fade-up" data-aos-delay="300" class="bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-6 rounded-xl transition-all duration-300 cursor-pointer hover:border-emerald-500/70 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                 <div class="flex justify-between items-start mb-2">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Front-End Intern</h3>
-                        <p class="text-cyberAccent text-sm font-medium">Systems Limited (SYS)</p>
+                        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors">Front-End Intern</h3>
+                        <p class="text-emerald-400 text-sm font-medium">Systems Limited (SYS)</p>
                     </div>
                     <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded">Jul 2025 - Sep 2025</span>
                 </div>
                 <p class="text-gray-400 text-sm mt-2">Worked with the KSA Digital Consulting team. Developed responsive web interfaces adhering to semantic standards and modern web accessibility practices.</p>
+                <div class="mt-4 flex items-center text-xs text-gray-500 group-hover:text-emerald-400 transition-colors">
+                    <span>View full details</span> <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                </div>
             </div>
 
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50">
-        <h2 class="text-3xl font-bold text-white mb-10 flex items-center" data-aos="fade-right"><i class="fas fa-microchip text-purple-500 mr-3"></i> Featured Projects</h2>
+    <section id="projects" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50 relative z-10">
+        <h2 class="text-3xl font-bold text-white mb-10 flex items-center drop-shadow-md" data-aos="fade-right"><i class="fas fa-microchip text-purple-500 mr-3"></i> Featured Projects</h2>
         <div class="grid md:grid-cols-2 gap-6">
-
-            <div data-aos="zoom-in" data-aos-delay="100" class="group bg-cyberCard border border-gray-800 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
+            <div data-aos="zoom-in" data-aos-delay="100" class="group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-bl-full -z-10 group-hover:scale-150 transition-transform"></div>
                 <h3 class="text-xl font-bold text-white mb-2">Blink-Controlled PDF Reader</h3>
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">
@@ -152,7 +173,7 @@
                 </div>
             </div>
 
-            <div data-aos="zoom-in" data-aos-delay="200" class="group bg-cyberCard border border-gray-800 rounded-xl p-6 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
+            <div data-aos="zoom-in" data-aos-delay="200" class="group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-bl-full -z-10 group-hover:scale-150 transition-transform"></div>
                 <h3 class="text-xl font-bold text-white mb-2">Cybersecurity Home Lab & SIEM</h3>
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">
@@ -163,21 +184,20 @@
                     <span class="text-[10px] uppercase tracking-wider bg-emerald-900/40 border border-emerald-700/50 text-emerald-300 px-2 py-1 rounded">Threat Analysis</span>
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- Certifications Section -->
-    <section id="certifications" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50">
+   <!-- Certifications Section -->
+    <section id="certifications" class="py-20 px-6 max-w-6xl mx-auto border-t border-gray-800/50 relative z-10">
         <div class="flex justify-between items-end mb-10" data-aos="fade-right">
-            <h2 class="text-3xl font-bold text-white flex items-center"><i class="fas fa-certificate text-yellow-500 mr-3"></i> Certifications & Badges</h2>
+            <h2 class="text-3xl font-bold text-white flex items-center drop-shadow-md"><i class="fas fa-certificate text-yellow-500 mr-3"></i> Certifications & Badges</h2>
             <p class="text-xs text-gray-500 hidden sm:block"><i class="fas fa-mouse-pointer mr-1"></i> Click to verify</p>
         </div>
         
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-
-            <!-- Deloitte Cyber Job Simulation -->
-            <a href="https://www.theforage.com/completion-certificates/9PBTqmSxAf6zZTseP/E9pA6qsdbeyEkp3ti_9PBTqmSxAf6zZTseP_6a42eed955e412a57fbf9d69_1782775029465_completion_certificate.pdf?raw=1" target="_blank" data-aos="flip-up" data-aos-delay="50" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(96,165,250,0.15)] transition-all relative">
+            <!-- Deloitte -->
+            <a href="https://www.theforage.com/completion-certificates/9PBTqmSxAf6zZTseP/E9pA6qsdbeyEkp3ti_9PBTqmSxAf6zZTseP_6a42eed955e412a57fbf9d69_1782775029465_completion_certificate.pdf?raw=1" target="_blank" data-aos="flip-up" data-aos-delay="50" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(96,165,250,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-blue-400 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fas fa-shield-alt text-xl text-blue-500"></i>
@@ -185,12 +205,12 @@
                 </div>
                 <div class="flex justify-between items-end mt-4">
                     <span class="text-[10px] text-gray-500">ID: bGsEvtwySbfhwznPMv</span>
-                    <span class="text-[10px] text-blue-400">Forage</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
                 </div>
             </a>
 
-            <!-- Mastercard Cybersecurity Job Simulation -->
-            <a href="https://www.theforage.com/completion-certificates/mfxGwGDp6WkQmtmTf/vcKAB5yYAgvemepGQ_mfxGwGDp6WkQmtmTf_6a42eed955e412a57fbf9d69_1782774011623_completion_certificate.pdf?raw=1" target="_blank" data-aos="flip-up" data-aos-delay="100" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-red-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)] transition-all relative">
+            <!-- Mastercard -->
+            <a href="https://www.theforage.com/completion-certificates/mfxGwGDp6WkQmtmTf/vcKAB5yYAgvemepGQ_mfxGwGDp6WkQmtmTf_6a42eed955e412a57fbf9d69_1782774011623_completion_certificate.pdf?raw=1" target="_blank" data-aos="flip-up" data-aos-delay="100" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-red-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(239,68,68,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-red-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fab fa-cc-mastercard text-xl text-red-500"></i>
@@ -198,11 +218,12 @@
                 </div>
                 <div class="flex justify-between items-end mt-4">
                     <span class="text-[10px] text-gray-500">ID: 6e42wed955e412a57fb9d69</span>
-                    <span class="text-[10px] text-red-400">Forage</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
                 </div>
             </a>
 
-            <a href="https://www.coursera.org/account/accomplishments/verify/4G0S93HGNLIP" target="_blank" data-aos="flip-up" data-aos-delay="150" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
+            <!-- Google Play it Safe -->
+            <a href="https://www.coursera.org/account/accomplishments/verify/4G0S93HGNLIP" target="_blank" data-aos="flip-up" data-aos-delay="150" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-yellow-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fab fa-google text-xl text-yellow-500"></i>
@@ -210,11 +231,12 @@
                 </div>
                 <div class="flex justify-between items-end mt-4">
                     <span class="text-[10px] text-gray-500">ID: 4G0593HGNLIP</span>
-                    <span class="text-[10px] bg-green-900/30 text-green-400 px-2 py-1 rounded border border-green-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
                 </div>
             </a>
 
-            <a href="GBV-RM_Module Certificate.pdf" target="_blank" data-aos="flip-up" data-aos-delay="200" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(96,165,250,0.15)] transition-all relative">
+            <!-- GBV -->
+            <a href="GBV-RM_Module Certificate.pdf" target="_blank" data-aos="flip-up" data-aos-delay="200" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(96,165,250,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-blue-400 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fas fa-globe text-xl text-blue-400"></i>
@@ -222,60 +244,75 @@
                 </div>
                 <div class="flex justify-between items-end mt-4">
                     <span class="text-[10px] text-gray-500">ID: cole4uXTbd</span>
-                    <span class="text-[10px] text-blue-300">UNICEF</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
                 </div>
             </a>
 
-            <a href="https://www.coursera.org/account/accomplishments/verify/IM98BODADRZV" target="_blank" data-aos="flip-up" data-aos-delay="250" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
+            <!-- Google Foundations -->
+            <a href="https://www.coursera.org/account/accomplishments/verify/IM98BODADRZV" target="_blank" data-aos="flip-up" data-aos-delay="250" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-yellow-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fab fa-google text-xl text-yellow-500"></i>
                     <h3 class="font-bold text-white text-sm leading-tight pr-6">Foundations of Cybersecurity</h3>
                 </div>
-                <div class="mt-4 text-[10px] text-yellow-500">Google</div>
+                <div class="flex justify-between items-end mt-4">
+                    <span class="text-[10px] text-gray-500">Google</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
+                </div>
             </a>
 
-            <a href="https://developers.google.com/profile/badges/community/gear?u=duhitsahmad" target="_blank" data-aos="flip-up" data-aos-delay="300" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
+            <!-- Gemini Ready -->
+            <a href="https://developers.google.com/profile/badges/community/gear?u=duhitsahmad" target="_blank" data-aos="flip-up" data-aos-delay="300" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-yellow-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(234,179,8,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-yellow-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fab fa-google text-xl text-yellow-500"></i>
                     <h3 class="font-bold text-white text-sm leading-tight pr-6">Gemini Enterprise Agent Ready</h3>
                 </div>
-                <div class="mt-4 text-[10px] text-yellow-500">Google AI</div>
+                <div class="flex justify-between items-end mt-4">
+                    <span class="text-[10px] text-gray-500">Google AI</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
+                </div>
             </a>
 
-            <a href="https://www.credly.com/badges/07b242f2-7481-4e2e-b180-6c4297bb7099/linked_in_profile" target="_blank" data-aos="flip-up" data-aos-delay="350" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-blue-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.15)] transition-all relative">
+            <!-- Microsoft -->
+            <a href="https://www.credly.com/badges/07b242f2-7481-4e2e-b180-6c4297bb7099/linked_in_profile" target="_blank" data-aos="flip-up" data-aos-delay="350" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-blue-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-blue-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fab fa-microsoft text-xl text-blue-500"></i>
                     <h3 class="font-bold text-white text-sm leading-tight pr-6">2026 Microsoft Student Ambassador</h3>
                 </div>
-                <div class="mt-4 text-[10px] text-blue-400">Microsoft</div>
+                <div class="flex justify-between items-end mt-4">
+                    <span class="text-[10px] text-gray-500">Microsoft</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
+                </div>
             </a>
 
-            <a href="https://catalog-education.oracle.com/pls/certview/sharebadge?id=31DF6290370B98434F3109D73819A6A16F9B67735C23E5293D8F50EC8F231A77" target="_blank" data-aos="flip-up" data-aos-delay="400" class="block group bg-cyberCard border border-gray-800 p-5 rounded-lg hover:border-orange-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-all relative">
+            <!-- Oracle -->
+            <a href="https://catalog-education.oracle.com/pls/certview/sharebadge?id=31DF6290370B98434F3109D73819A6A16F9B67735C23E5293D8F50EC8F231A77" target="_blank" data-aos="flip-up" data-aos-delay="400" class="block group bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-5 rounded-lg hover:border-orange-500/60 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-all relative">
                 <i class="fas fa-external-link-alt absolute top-4 right-4 text-gray-600 group-hover:text-orange-500 transition-colors text-sm"></i>
                 <div class="flex items-center gap-3 mb-3">
                     <i class="fas fa-brain text-xl text-orange-500"></i>
                     <h3 class="font-bold text-white text-sm leading-tight pr-6">Oracle Cloud AI Foundations</h3>
                 </div>
-                <div class="mt-4 text-[10px] text-orange-400">Oracle</div>
+                <div class="flex justify-between items-end mt-4">
+                    <span class="text-[10px] text-gray-500">Oracle</span>
+                    <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-1 rounded border border-blue-800/50"><i class="fas fa-check-circle mr-1"></i>Verified</span>
+                </div>
             </a>
-
         </div>
     </section>
 
     <!-- Dynamic Contact & Details Section -->
-    <section id="contact" class="py-24 px-6 max-w-6xl mx-auto border-t border-gray-800/50">
+    <section id="contact" class="py-24 px-6 max-w-6xl mx-auto border-t border-gray-800/50 relative z-10">
         <div data-aos="fade-up" class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-white mb-3">Initialize Connection</h2>
+            <h2 class="text-4xl font-bold text-white mb-3 drop-shadow-md">Initialize Connection</h2>
             <p class="text-gray-400 text-sm">Reach out directly or use the secure transmission form below.</p>
         </div>
         
         <div class="flex flex-col md:flex-row gap-12 items-start">
             
             <div class="md:w-1/3 w-full space-y-6" data-aos="fade-right" data-aos-delay="100">
-                <div class="bg-cyberCard border border-gray-800 p-6 rounded-xl hover:border-cyberBlue/40 transition-colors">
+                <div class="bg-cyberCard/80 backdrop-blur-sm border border-gray-800 p-6 rounded-xl hover:border-cyberBlue/40 transition-colors">
                     <h3 class="text-white font-bold mb-4 border-b border-gray-800 pb-2">Direct Comms</h3>
                     
                     <div class="space-y-4">
@@ -313,22 +350,22 @@
             </div>
 
             <div class="md:w-2/3 w-full" data-aos="zoom-in" data-aos-delay="200">
-                <form id="contactForm" class="bg-cyberCard/50 backdrop-blur p-8 rounded-2xl border border-gray-800/80 shadow-2xl relative overflow-hidden">
+                <form id="contactForm" class="bg-cyberCard/70 backdrop-blur-md p-8 rounded-2xl border border-gray-800/80 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600"></div>
                     <div class="space-y-5">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
                                 <label class="block text-xs font-medium text-gray-400 mb-1 uppercase tracking-wider">Your Name</label>
-                                <input type="text" id="senderName" required class="w-full bg-cyberDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all">
+                                <input type="text" id="senderName" required class="w-full bg-cyberDark/80 border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-400 mb-1 uppercase tracking-wider">Your Email</label>
-                                <input type="email" id="senderEmail" required class="w-full bg-cyberDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all">
+                                <input type="email" id="senderEmail" required class="w-full bg-cyberDark/80 border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all">
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-400 mb-1 uppercase tracking-wider">Message Payload</label>
-                            <textarea id="message" rows="4" required class="w-full bg-cyberDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all"></textarea>
+                            <textarea id="message" rows="4" required class="w-full bg-cyberDark/80 border border-gray-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-cyberAccent focus:ring-1 focus:ring-cyberAccent transition-all"></textarea>
                         </div>
                         <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-medium py-3 rounded-lg transition-all shadow-lg hover:shadow-cyan-500/25 flex justify-center items-center gap-2 mt-2">
                             <i class="fas fa-paper-plane"></i> Transmit Message
@@ -341,13 +378,46 @@
         </div>
     </section>
 
-    <footer class="py-8 border-t border-gray-900 bg-cyberDark text-center text-xs text-gray-500">
+    <!-- Experience Modal Popup (UPDATED) -->
+    <div id="experienceModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-cyberDark/90 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <!-- Modal Content Container -->
+        <div class="relative bg-[#0a1120] border border-cyan-500/50 rounded-xl max-w-xl w-full p-8 shadow-[0_0_40px_rgba(0,242,254,0.15)] transform scale-95 transition-all duration-300 opacity-0" id="modalContent">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-400 transition-colors bg-gray-900/50 hover:bg-red-900/20 rounded-full w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="flex flex-col items-center mb-6">
+                <!-- Title & Details -->
+                <h3 id="modalTitle" class="text-2xl font-bold text-white text-center tracking-tight mb-1"></h3>
+                <p id="modalCompany" class="text-cyberAccent font-bold uppercase tracking-wider text-sm"></p>
+                <span id="modalDate" class="text-xs bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full mt-3 mb-4"></span>
+                
+                <!-- NEW: Company Website Button -->
+                <a id="modalWebsiteBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/50 hover:bg-blue-600 hover:text-white text-blue-400 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]">
+                    <i class="fas fa-external-link-alt"></i> Visit Company Website
+                </a>
+            </div>
+            
+            <!-- Dynamic Description -->
+            <div id="modalDescription" class="text-gray-400 text-sm leading-relaxed border-t border-gray-800/80 pt-6">
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-8 border-t border-gray-900 bg-cyberDark/80 backdrop-blur-sm text-center text-xs text-gray-500 relative z-10">
         <p>© 2026 Muhammad Ahmad • Hosted securely on Microsoft Azure Static Web Apps</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/typed.js@2.0.16"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.0.6/tsparticles.slim.bundle.min.js"></script>
+    
     <script>
         AOS.init({ 
             duration: 800, 
@@ -367,6 +437,93 @@
             typeSpeed: 40, backSpeed: 20, backDelay: 2500, loop: true, showCursor: true, cursorChar: '_'
         });
 
+        // tsParticles Cyber Network Configuration
+        tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            particles: {
+                color: { value: ["#0078d4", "#00f2fe", "#10b981"] },
+                links: { color: "#00f2fe", distance: 150, enable: true, opacity: 0.2, width: 1 },
+                move: { direction: "none", enable: true, outModes: { default: "bounce" }, speed: 1.2 },
+                number: { density: { enable: true, area: 800 }, value: 60 },
+                opacity: { value: 0.5 },
+                shape: { type: "circle" },
+                size: { value: { min: 1, max: 3 } },
+            },
+            detectRetina: true,
+        });
+
+        // --- UPDATED MODAL LOGIC & DATA WITH WEBSITE LINKS ---
+        const experienceData = {
+            '10pearls': {
+                website: 'https://10pearls.com/',
+                title: 'Data Science Intern',
+                company: '10Pearls',
+                date: 'Jul 2026 - Present',
+                description: 'Selected for the highly competitive 8-week Shine Internship Program. <br><br> <ul class="list-disc pl-5 space-y-2 mt-2 text-gray-400"> <li>Focused on leveraging advanced data science methodologies and artificial intelligence models.</li> <li>Developed and tested analytical algorithms tailored for automated network defense.</li> <li>Gained hands-on exposure to deploying machine learning for anomaly detection in cyber environments.</li> </ul>'
+            },
+            'microsoft': {
+                website: 'https://mvp.microsoft.com/studentambassadors',
+                title: 'Associate Microsoft Student Ambassador',
+                company: 'Microsoft',
+                date: 'Jul 2026 - Present',
+                description: 'Serving as a local community leader bridging the gap between students and enterprise technology.<br><br> <ul class="list-disc pl-5 space-y-2 mt-2 text-gray-400"> <li>Successfully established and managed the official MSA chapter at The University of Faisalabad.</li> <li>Architected and organized hands-on technical workshops to upskill peers in Cybersecurity, AI, and Cloud Architecture.</li> <li>Leveraged Microsoft tools (Azure, Copilot) to demonstrate real-world deployment strategies.</li> </ul>'
+            },
+            'arch': {
+                website: 'https://pk.linkedin.com/company/archtechnologiespk',
+                title: 'Cyber Security Intern',
+                company: 'Arch Technologies',
+                date: 'Jun 2026 - Present',
+                description: 'Engaged in intensive 8-week practical training focused on modern threat vectors and enterprise defense strategies.<br><br> <ul class="list-disc pl-5 space-y-2 mt-2 text-gray-400"> <li>Conducted vulnerability assessments and simulated penetration testing on controlled lab environments.</li> <li>Gained operational experience analyzing network traffic and log files for anomaly detection.</li> <li>Executed active threat hunting workflows and documented potential security blind spots.</li> </ul>'
+            },
+            'systems': {
+                website: 'https://www.systemsltd.com/',
+                title: 'Front-End Intern',
+                company: 'Systems Limited (SYS)',
+                date: 'Jul 2025 - Sep 2025',
+                description: 'Integrated within the high-performing KSA Digital Consulting team for international enterprise projects.<br><br> <ul class="list-disc pl-5 space-y-2 mt-2 text-gray-400"> <li>Engineered and deployed responsive, user-centric web interfaces using modern frameworks.</li> <li>Ensured strict adherence to semantic HTML standards and global web accessibility guidelines (WCAG).</li> <li>Collaborated directly with senior developers and UI/UX designers to optimize frontend performance.</li> </ul>'
+            }
+        };
+
+        function openModal(id) {
+            const data = experienceData[id];
+            
+            // Populate data
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalCompany').textContent = data.company;
+            document.getElementById('modalDate').textContent = data.date;
+            document.getElementById('modalDescription').innerHTML = data.description;
+            
+            // Set the href for the new website button
+            document.getElementById('modalWebsiteBtn').href = data.website;
+
+            // Display Modal Elements
+            const modal = document.getElementById('experienceModal');
+            const content = document.getElementById('modalContent');
+            
+            modal.classList.remove('hidden');
+            
+            // Trigger CSS transition
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('experienceModal');
+            const content = document.getElementById('modalContent');
+            
+            // Revert CSS transition
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            // Hide after transition completes
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Handle Form Submission
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
